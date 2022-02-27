@@ -4,6 +4,10 @@
  */
 package br.stark.invoiceconsumer.consumer;
 
+import br.stark.invoiceconsumer.dto.InvoiceDto;
+import br.stark.invoiceconsumer.service.AMQPPublisher;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
@@ -19,6 +23,8 @@ import java.util.logging.Logger;
 public class InvoiceConsumer extends DefaultConsumer{
     
     private final Channel channel;
+    
+    private final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     public InvoiceConsumer(Channel channel) {
         super(channel);
@@ -46,10 +52,19 @@ public class InvoiceConsumer extends DefaultConsumer{
     }
     
     private void processDelivery(String message) throws Exception {
-
         System.out.println(message);
         
+        var dto = gson.fromJson(message, InvoiceDto.class);
         
+        
+        if("credited".equals(dto.getEvent().getLog().getInvoiceEventType())){
+            
+            var publisher = new AMQPPublisher();
+            
+            publisher.sendToQueue("credited_invoices", gson.toJson(dto));
+            
+            publisher.close();
+        }
     }
     
 }
