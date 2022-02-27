@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class InvoiceConsumerApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(InvoiceConsumerApplication.class, args);
+                
+                InvoiceWorker.main(args);
 	}
 
 }
