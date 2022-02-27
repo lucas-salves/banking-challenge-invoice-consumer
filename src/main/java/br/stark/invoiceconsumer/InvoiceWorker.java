@@ -13,7 +13,7 @@ import br.stark.invoiceconsumer.consumer.InvoiceConsumer;
  */
 public class InvoiceWorker {
 
-    private static final String QUEUE_NAME = "Shopee_Estoque";
+    private static final String QUEUE_NAME = "invoiced_payment";
 
     public static void main(String[] args) throws Exception {
 
