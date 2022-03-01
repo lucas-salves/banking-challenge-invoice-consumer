@@ -56,7 +56,6 @@ public class InvoiceConsumer extends DefaultConsumer{
         
         var dto = gson.fromJson(message, InvoiceDto.class);
         
-        
         if("credited".equals(dto.getEvent().getLog().getInvoiceEventType())){
             
             var publisher = new AMQPPublisher();
