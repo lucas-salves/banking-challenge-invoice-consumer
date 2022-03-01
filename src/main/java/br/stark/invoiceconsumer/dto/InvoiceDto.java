@@ -44,5 +44,8 @@ public class InvoiceDto {
         
         @SerializedName("interestAmount")
         private BigDecimal interestAmount;
+        
+        @SerializedName("fee")
+        private BigDecimal fee;
     }
 }
